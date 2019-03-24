@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.ed611de979f63438ac4f9289a712e260.js"
+  "/tu-vibe/precache-manifest.e3f902b751c9df0a8b6f5271ce602f2b.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "tu-vibe"});
