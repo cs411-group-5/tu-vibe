@@ -26,11 +26,11 @@ export default {
         this.fbAuthResp = { error: r.status };
       }
     },
-    fbLogout() {
-      console.log("Logging out");
-      window.FB.logout(r => {
-        console.log(r);
-      });
+    fbLogout () {
+        console.log("Logging out");
+        window.FB.logout( (r) => {
+            console.log(r);
+        });
     },
     checkLoginState() {
       window.FB.getLoginStatus(response => {
