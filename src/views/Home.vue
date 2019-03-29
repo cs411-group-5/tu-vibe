@@ -1,19 +1,20 @@
 <template>
   <div class="home">
     
-    <Login />
-
+    <!-- <Login /> -->
+    <Yelp />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Login from '@/components/Login.vue'
+// import Login from '@/components/Login.vue'
+import Yelp from '@/components/Yelp.vue'
 
 export default {
   name: 'home',
   components: {
-    Login
+    Yelp
   }
 }
 </script>
