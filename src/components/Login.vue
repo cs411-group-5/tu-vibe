@@ -25,7 +25,7 @@ export default {
           this.fbAuthResp = {"error": r.status};
       }
     },
-    fbLogout (e) {
+    fbLogout () {
         console.log("Logging out");
         window.FB.logout( (r) => {
             console.log(r);
