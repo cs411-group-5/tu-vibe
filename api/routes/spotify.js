@@ -35,7 +35,7 @@ router.get("/spotify", function(req, res, next) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = "user-read-private user-read-email";
+  var scope = "user-read-private user-read-email user-library-read user-top-read";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -97,9 +97,9 @@ router.get("/callback", function(req, res) {
         });
 
         var spotifyApi = new SpotifyWebApi({
-          clientId: "",
-          clientSecret: "",
-          redirectUri: "http://localhost:8889/callback"
+          clientId: process.env.SPOTIFY_CID,
+          clientSecret: process.env.SPOTIFY_SEC,
+          redirectUri: "http://localhost:8889/spotify/callback"
         });
 
         spotifyApi.setAccessToken(access_token);
@@ -148,14 +148,16 @@ router.get("/callback", function(req, res) {
             }
           );
 
-        spotifyApi.getAudioAnalysisForTrack("3Qm86XLflmIXVm1wcwkgDK").then(
-          function(data) {
-            console.log(data.body);
-          },
-          function(err) {
-            done(err);
-          }
-        );
+        // spotifyApi.getAudioAnalysisForTrack("3Qm86XLflmIXVm1wcwkgDK").then(
+        //   function(data) {
+        //     console.log(data.body);
+        //   },
+        //   function(err) {
+        //     done(err);
+        //   }
+        // );
+
+
       } else {
         res.redirect(
           "/#" +
