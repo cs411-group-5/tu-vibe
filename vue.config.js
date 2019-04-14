@@ -3,6 +3,6 @@ module.exports = {
         ? '/tu-vibe/'
         : '/',
     devServer: {
-        https: true
+        https: false
     }
 }
