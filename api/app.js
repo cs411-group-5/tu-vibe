@@ -6,6 +6,8 @@ var logger = require('morgan');
 var cors = require('cors')
 
 
+const LISTEN_PORT = 8889;
+
 var indexRouter = require('./routes/index');
 var yelpRouter = require('./routes/yelp');
 var spotifyRouter = require('./routes/spotify');
@@ -22,6 +24,6 @@ app.use('/', indexRouter);
 app.use('/yelp', yelpRouter);
 app.use('/spotify',spotifyRouter)
 
-app.listen(8889);
-
+app.listen(LISTEN_PORT);
+console.log(`API Server listening on ${LISTEN_PORT}`);
 module.exports = app;

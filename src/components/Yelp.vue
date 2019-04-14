@@ -15,11 +15,11 @@
 <script>
 export default {
   data () {
-    return {yelpJSON: undefined, term: "cafe"};
+    return {yelpJSON: undefined, term: ""};
   },
   methods: {
     getYelp () {
-      fetch(`http://localhost:3000/yelp?text=${this.term}`).then((r) => r.json()).then((j) => {
+      fetch(`http://localhost:8889/yelp?text=${this.term}`).then((r) => r.json()).then((j) => {
         this.yelpJSON = j;
       });
     }
