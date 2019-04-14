@@ -12,8 +12,14 @@
         <ul class="list-unstyled components">
           <p>*slogan goes in here*</p>
           <li class="active">
-            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-            <ul class="collapse list-unstyled" id="homeSubmenu">
+            <a
+              href="#"
+              data-toggle="collapse"
+              aria-expanded="false"
+              class="dropdown-toggle"
+              v-on:click="homeSM = !homeSM"
+            >Home</a>
+            <ul :class="`${homeSM?'collapse':''} list-unstyled`" id="homeSubmenu">
               <li>
                 <a href="Home.html">Your Vibe</a>
               </li>
@@ -27,8 +33,14 @@
           </li>
           <li>
             <a href="Search.html">Search</a>
-            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Categories</a>
-            <ul class="collapse list-unstyled" id="pageSubmenu">
+            <a
+              href="#"
+              data-toggle="collapse"
+              aria-expanded="false"
+              class="dropdown-toggle"
+              v-on:click="categorySM = !categorySM"
+            >Categories</a>
+            <ul :class="`${categorySM?'collapse':''} list-unstyled`" id="pageSubmenu">
               <li>
                 <a href="Categories.html">Cafes</a>
               </li>
@@ -50,7 +62,7 @@
 
         <ul class="list-unstyled CTAs">
           <li>
-            <a href="" class="">Go to your Spotify</a>
+            <a href class>Go to your Spotify</a>
           </li>
         </ul>
       </nav>
@@ -62,12 +74,14 @@
 </template>
 
 <script>
-  $(document).ready(function () {
-    $('#sidebarCollapse').on('click', function () {
-      $('#sidebar').toggleClass('active');
-      $(this).toggleClass('active');
-    });
-  });
+export default {
+  data() {
+    return {
+      categorySM: true,
+      homeSM: true
+    };
+  }
+};
 </script>
 <style lang="scss">
 #app {
@@ -75,27 +89,27 @@
   /*-webkit-font-smoothing: antialiased;*/
   /*-moz-osx-font-smoothing: grayscale;*/
 
-
   /*
     DEMO STYLE
 */
   @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
-
   body {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     background: #fafafa;
   }
 
   p {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
     color: #999;
   }
 
-  a, a:hover, a:focus {
+  a,
+  a:hover,
+  a:focus {
     color: inherit;
     text-decoration: none;
     transition: all 0.3s;
@@ -138,13 +152,12 @@
     perspective: 1500px;
   }
 
-
   #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #7386D5;
+    background: #7386d5;
     color: #fff;
-    transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
+    transition: all 0.6s cubic-bezier(0.945, 0.02, 0.27, 0.665);
     transform-origin: bottom left;
   }
 
@@ -174,15 +187,15 @@
     display: block;
   }
   #sidebar ul li a:hover {
-    color: #7386D5;
+    color: #7386d5;
     background: #fff;
   }
 
-  #sidebar ul li.active > a, a[aria-expanded="true"] {
+  #sidebar ul li.active > a,
+  a[aria-expanded="true"] {
     color: #fff;
     background: #6d7fcc;
   }
-
 
   a[data-toggle="collapse"] {
     position: relative;
@@ -216,12 +229,8 @@
 
   a.download {
     background: #fff;
-    color: #7386D5;
+    color: #7386d5;
   }
-
-
-
-
 
   /* ---------------------------------------------------
       CONTENT STYLE
@@ -246,7 +255,7 @@
     margin: 0 auto;
     display: block;
     background: #555;
-    transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
+    transition: all 0.8s cubic-bezier(0.81, -0.33, 0.345, 1.375);
     transition-delay: 0.2s;
   }
 
@@ -260,13 +269,11 @@
     transform: rotate(-45deg) translate(1px, -1px);
   }
 
-
   #sidebarCollapse.active span {
     transform: none;
     opacity: 1;
     margin: 5px auto;
   }
-
 
   /* ---------------------------------------------------
       MEDIAQUERIES
@@ -299,13 +306,11 @@
     #sidebarCollapse.active span:last-of-type {
       transform: rotate(-45deg) translate(1px, -1px);
     }
-
   }
 
-  .active-pink-2 input[type=text]:focus:not([readonly]) {
+  .active-pink-2 input[type="text"]:focus:not([readonly]) {
     border-bottom: 1px solid #f48fb1;
     box-shadow: 0 1px 0 0 #f48fb1;
   }
-
 }
 </style>
