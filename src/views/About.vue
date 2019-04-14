@@ -1,11 +1,7 @@
 <template>
   <div class="about">
     <h1>This is an about page</h1>
-    <ul>
-      <li v-for="business in yelpJSON.businesses">
-        {{business.name}}
-      </li>
-    </ul>
+
   </div>
 </template>
 
