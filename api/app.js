@@ -8,6 +8,7 @@ var cors = require('cors')
 
 var indexRouter = require('./routes/index');
 var yelpRouter = require('./routes/yelp');
+var spotifyRouter = require('./routes/spotify');
 
 var app = express();
 
@@ -19,6 +20,7 @@ app.use(cors())
 
 app.use('/', indexRouter);
 app.use('/yelp', yelpRouter);
+app.use('/spotify',spotifyRouter)
 
 app.listen(8889);
 
