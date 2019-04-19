@@ -12,6 +12,10 @@ var client_id = process.env.SPOTIFY_CID; // Your client id
 var client_secret = process.env.SPOTIFY_SEC; // Your secret
 var redirect_uri = "http://localhost:8889/spotify/callback"; // Your redirect uri
 
+const MongoClient = require("mongodb").MongoClient;
+const uri = process.env.MONGO_SRV;
+const client = new MongoClient(uri, { useNewUrlParser: true });
+
 var generateRandomString = function(length) {
   var text = "";
   var possible =
@@ -35,7 +39,14 @@ router.get("/spotify", function(req, res, next) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = "user-read-private user-read-email user-library-read user-top-read";
+  var scope = [
+    "user-follow-read",
+    "user-top-read",
+    "user-library-read",
+    "user-read-email",
+    "user-read-private",
+    "user-read-recently-played"
+  ].join(" ");
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -82,20 +93,11 @@ router.get("/callback", function(req, res) {
 
     request.post(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
-        var access_token = body.access_token,
-          refresh_token = body.refresh_token;
+        const access_token = body.access_token;
+        const refresh_token = body.refresh_token;
 
-        var options = {
-          url: "https://api.spotify.com/v1/me",
-          headers: { Authorization: "Bearer " + access_token },
-          json: true
-        };
-
-        // use the access token to access the Spotify Web API
-        request.get(options, function(error, response, body) {
-          console.log(body);
-        });
-
+        let user = {};
+        
         var spotifyApi = new SpotifyWebApi({
           clientId: process.env.SPOTIFY_CID,
           clientSecret: process.env.SPOTIFY_SEC,
@@ -104,60 +106,27 @@ router.get("/callback", function(req, res) {
 
         spotifyApi.setAccessToken(access_token);
 
-        /* Get followed artists */
-        spotifyApi.getFollowedArtists({ limit: 3 }).then(
-          function(data) {
-            // 'This user is following 1051 artists!'
-            console.log(
-              "This user is following ",
-              data.body.artists.total,
-              " artists!"
-            );
-          },
-          function(err) {
-            console.log("Something went wrong!", err);
-          }
-        );
+        spotifyApi.getMe().then((data) => {
+          console.log('Some information about the authenticated user', data.body);
+          
+          user = data.body;
+          user["accessToken"] = access_token;
+          user["refreshToken"] = refresh_token;
 
-        spotifyApi
-          .getMySavedAlbums({
-            limit: 1,
-            offset: 0
-          })
-          .then(
-            function(data) {
-              // Output items
-              console.log(data.body.items);
-            },
-            function(err) {
-              console.log("Something went wrong!", err);
-            }
-          );
+          client.connect(err => {
+            const collection = client.db("CS411").collection("users");
+        
+            collection.insertOne(user);
+        
+            client.close();
+          });
 
-        spotifyApi
-          .getMySavedTracks({
-            limit: 2,
-            offset: 1
-          })
-          .then(
-            function(data) {
-              console.log("Done!");
-            },
-            function(err) {
-              console.log("Something went wrong!", err);
-            }
-          );
+        }, (err) => {
+          console.log('Something went wrong!', err);
+        });
 
-        // spotifyApi.getAudioAnalysisForTrack("3Qm86XLflmIXVm1wcwkgDK").then(
-        //   function(data) {
-        //     console.log(data.body);
-        //   },
-        //   function(err) {
-        //     done(err);
-        //   }
-        // );
-
-
+       
+        res.json({ spotify: user });
       } else {
         res.redirect(
           "/#" +

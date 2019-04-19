@@ -1,76 +1,79 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <!--<router-link to="/">Home</router-link>|-->
-      <!--<router-link to="/about">About</router-link>-->
-      <!-- Sidebar Holder -->
-      <nav id="sidebar">
-        <div class="sidebar-header">
-          <h3>App Name</h3>
-        </div>
-
-        <ul class="list-unstyled components">
-          <p>*slogan goes in here*</p>
-          <li class="active">
-            <a
-              href="#"
-              data-toggle="collapse"
-              aria-expanded="false"
-              class="dropdown-toggle"
-              v-on:click="homeSM = !homeSM"
-            >Home</a>
-            <ul :class="`${homeSM?'collapse':''} list-unstyled`" id="homeSubmenu">
-              <li>
-                <a href="Home.html">Your Vibe</a>
-              </li>
-              <li>
-                <a href="Home.html">Music Events</a>
-              </li>
-              <li>
-                <a href="Home.html">Popular</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="Search.html">Search</a>
-            <a
-              href="#"
-              data-toggle="collapse"
-              aria-expanded="false"
-              class="dropdown-toggle"
-              v-on:click="categorySM = !categorySM"
-            >Categories</a>
-            <ul :class="`${categorySM?'collapse':''} list-unstyled`" id="pageSubmenu">
-              <li>
-                <a href="Categories.html">Cafes</a>
-              </li>
-              <li>
-                <a href="Categories.html">Bars</a>
-              </li>
-              <li>
-                <a href="Categories.html">Concerts</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="Account.html">Your Account</a>
-          </li>
-          <li>
-            <a href="Contact.html">Contact</a>
-          </li>
-        </ul>
-
-        <ul class="list-unstyled CTAs">
-          <li>
-            <a href class>Go to your Spotify</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <div class="container">
-      <router-view/>
-    </div>
-  </div>
+  <b-container id="app" fluid>
+    <b-row>
+      <div id="nav">
+        <!--<router-link to="/">Home</router-link>|-->
+        <!--<router-link to="/about">About</router-link>-->
+        <!-- Sidebar Holder -->
+        <nav id="sidebar">
+          <div class="sidebar-header">
+            <h3><router-link to="/">TuVibe</router-link></h3>
+          </div>
+  
+          <ul class="list-unstyled components">
+            <p>*slogan goes in here*</p>
+            <li class="active">
+              <a
+                href="#"
+                data-toggle="collapse"
+                aria-expanded="false"
+                class="dropdown-toggle"
+                v-on:click="homeSM = !homeSM"
+              >Home</a>
+              <ul :class="`${homeSM?'collapse':''} list-unstyled`" id="homeSubmenu">
+                <li>
+                  <a href="Home.html">Your Vibe</a>
+                </li>
+                <li>
+                  <a href="Home.html">Music Events</a>
+                </li>
+                <li>
+                  <a href="Home.html">Popular</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="Search.html">Search</a>
+              <a
+                href="#"
+                data-toggle="collapse"
+                aria-expanded="false"
+                class="dropdown-toggle"
+                v-on:click="categorySM = !categorySM"
+              >Categories</a>
+              <ul :class="`${categorySM?'collapse':''} list-unstyled`" id="pageSubmenu">
+                <li>
+                  <a href="Categories.html">Cafes</a>
+                </li>
+                <li>
+                  <a href="Categories.html">Bars</a>
+                </li>
+                <li>
+                  <a href="Categories.html">Concerts</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <!-- <a href="Account.html">Your Account</a> -->
+              <router-link to="/user">Your Account</router-link>
+            </li>
+            <li>
+              <a href="Contact.html">Contact</a>
+            </li>
+          </ul>
+  
+          <ul class="list-unstyled CTAs">
+            <li>
+              <a href class>Go to your Spotify</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="container">
+        <router-view/>
+      </div>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
