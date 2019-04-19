@@ -1,74 +1,79 @@
 <template>
   <div id="app">
-    <div id="nav">
+
       <!--<router-link to="/">Home</router-link>|-->
       <!--<router-link to="/about">About</router-link>-->
       <!-- Sidebar Holder -->
-      <nav id="sidebar">
-        <div class="sidebar-header">
-          <h3>App Name</h3>
+      <div class="wrapper">
+
+        <nav id="sidebar">
+          <div class="sidebar-header">
+            <h3>TuVibe</h3>
+          </div>
+          <ul class="list-unstyled components">
+            <p>*slogan goes in here*</p>
+            <li class="active">
+              <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+              <ul class="collapse list-unstyled" id="homeSubmenu">
+                <li>
+                  <a href="Home.vue">Your Vibe</a>
+                </li>
+                <li>
+                  <a href="Home.vue">Music Events</a>
+                </li>
+                <li>
+                  <a href="Home.vue">Popular</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <router-link to="/">Search</router-link>
+              <!--<a href="Yelp.vue">Search</a>-->
+              <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Categories</a>
+              <ul class="collapse list-unstyled" id="pageSubmenu">
+                <li>
+                  <a href="Categories.html">Cafes</a>
+                </li>
+                <li>
+                  <a href="Categories.html">Bars</a>
+                </li>
+                <li>
+                  <a href="Categories.html">Concerts</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="UserAccount.vue">Your Account</a>
+            </li>
+            <li>
+              <a href="Contact.vue">Contact</a>
+            </li>
+          </ul>
+
+          <ul class="list-unstyled CTAs">
+            <li>
+              <a href="" class="">Go to your Spotify</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="container">
+          <router-view/>
         </div>
+      </div>
 
-        <ul class="list-unstyled components">
-          <p>*slogan goes in here*</p>
-          <li class="active">
-            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-            <ul class="collapse list-unstyled" id="homeSubmenu">
-              <li>
-                <a href="Home.html">Your Vibe</a>
-              </li>
-              <li>
-                <a href="Home.html">Music Events</a>
-              </li>
-              <li>
-                <a href="Home.html">Popular</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="Search.html">Search</a>
-            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Categories</a>
-            <ul class="collapse list-unstyled" id="pageSubmenu">
-              <li>
-                <a href="Categories.html">Cafes</a>
-              </li>
-              <li>
-                <a href="Categories.html">Bars</a>
-              </li>
-              <li>
-                <a href="Categories.html">Concerts</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="Account.html">Your Account</a>
-          </li>
-          <li>
-            <a href="Contact.html">Contact</a>
-          </li>
-        </ul>
+      </div>
 
-        <ul class="list-unstyled CTAs">
-          <li>
-            <a href="" class="">Go to your Spotify</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <div class="container">
-      <router-view/>
-    </div>
-  </div>
+
 </template>
 
-<script>
-  $(document).ready(function () {
-    $('#sidebarCollapse').on('click', function () {
-      $('#sidebar').toggleClass('active');
-      $(this).toggleClass('active');
-    });
-  });
-</script>
+<!--<script>-->
+  <!--$(document).ready(function () {-->
+    <!--$('#sidebarCollapse').on('click', function () {-->
+      <!--$('#sidebar').toggleClass('active');-->
+      <!--$(this).toggleClass('active');-->
+    <!--});-->
+  <!--});-->
+<!--</script>-->
 <style lang="scss">
 #app {
   /*font-family: "Avenir", Helvetica, Arial, sans-serif;*/

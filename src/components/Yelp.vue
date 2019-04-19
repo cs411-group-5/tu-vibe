@@ -1,7 +1,10 @@
 <template>
     <div>
         <b-card>
-            <input class="form-control ml-3 w-75" type="text" placeholder="Search for awesomeness..." aria-label="Search" v-model="term" > <b-button v-on:click="getYelp();">Click here!</b-button>
+            <input class="form-control ml-3 w-75" type="text"
+                   placeholder="Search for awesomeness..." aria-label="Search"
+                   v-model="term">
+            <!--<b-button v-on:click="getYelp();">Click here!</b-button>-->
             <h1>Yelp!</h1>
             <ul>
                 <li v-for="business in yelpJSON.businesses">
@@ -24,6 +27,12 @@ export default {
       });
     }
   },
+    watch:{
+      term(value){
+          console.log(value);
+          this.getYelp();
+      }
+    },
   mounted() {
     this.getYelp();
   },
