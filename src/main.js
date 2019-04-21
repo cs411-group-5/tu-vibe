@@ -7,10 +7,12 @@ import './registerServiceWorker'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueCookie from 'vue-cookie'
 
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
+Vue.use(VueCookie);
 
 new Vue({
   router,
