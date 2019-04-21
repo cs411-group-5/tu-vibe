@@ -1,17 +1,16 @@
 <template>
   <b-container id="app" fluid>
     <b-row>
-      <div id="nav">
         <!--<router-link to="/">Home</router-link>|-->
         <!--<router-link to="/about">About</router-link>-->
         <!-- Sidebar Holder -->
+      <div class="wrapper">
         <nav id="sidebar">
           <div class="sidebar-header">
             <h3><router-link to="/">TuVibe</router-link></h3>
           </div>
 
           <ul class="list-unstyled components">
-            <p>*slogan goes in here*</p>
             <li class="active">
               <a
                 href="#"
@@ -22,18 +21,18 @@
               >Home</a>
               <ul :class="`${homeSM?'collapse':''} list-unstyled`" id="homeSubmenu">
                 <li>
-                  <a href="Home.html">Your Vibe</a>
+                  <router-link to="/">Your Vibe</router-link>
                 </li>
                 <li>
-                  <a href="Home.html">Music Events</a>
+                  <router-link to="/">Music Events</router-link>
                 </li>
                 <li>
-                  <a href="Home.html">Popular</a>
+                  <router-link to="/">Popular</router-link>
                 </li>
               </ul>
             </li>
             <li>
-              <a href="Search.html">Search</a>
+              <router-link to="/about">Search</router-link>
               <a
                 href="#"
                 data-toggle="collapse"
@@ -43,22 +42,21 @@
               >Categories</a>
               <ul :class="`${categorySM?'collapse':''} list-unstyled`" id="pageSubmenu">
                 <li>
-                  <a href="Categories.html">Cafes</a>
+                  <router-link to="/categories">Cafes</router-link>
                 </li>
                 <li>
-                  <a href="Categories.html">Bars</a>
+                  <router-link to="/categories">Bars</router-link>
                 </li>
                 <li>
-                  <a href="Categories.html">Concerts</a>
+                  <router-link to="/categories">Concerts</router-link>
                 </li>
               </ul>
             </li>
             <li>
-              <!-- <a href="Account.html">Your Account</a> -->
               <router-link to="/user">Your Account</router-link>
             </li>
             <li>
-              <a href="Contact.html">Contact</a>
+              <router-link to="/contact">Contact us</router-link>
             </li>
           </ul>
 
@@ -68,13 +66,17 @@
             </li>
           </ul>
         </nav>
-      </div>
-      <div class="container">
+
+      <div class="fluid container">
         <router-view/>
+      </div>
+
       </div>
     </b-row>
   </b-container>
 </template>
+
+
 
 <script>
 export default {
@@ -159,8 +161,8 @@ export default {
   #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #7386D5;
-    color: #fff;
+    background: #343F50;
+    color: #f5ac40;
     transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
     transform-origin: bottom left;
   }
@@ -172,7 +174,9 @@ export default {
 
   #sidebar .sidebar-header {
     padding: 20px;
-    background: #6d7fcc;
+    background: #47566e;
+    color: #f5ac40;
+    font-size: 1.1em;
   }
 
   #sidebar ul.components {
@@ -181,7 +185,7 @@ export default {
   }
 
   #sidebar ul p {
-    color: #fff;
+    color: #f5ac40;
     padding: 10px;
   }
 
@@ -191,13 +195,13 @@ export default {
     display: block;
   }
   #sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
+    color: #f5ac40;
+    background: #47566e;
   }
 
   #sidebar ul li.active > a, a[aria-expanded="true"] {
-    color: #fff;
-    background: #6d7fcc;
+    color: #f5ac40;
+    background: #343F50;
   }
 
 
@@ -216,7 +220,7 @@ export default {
   ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    background: #343F50;
   }
 
   ul.CTAs {
@@ -233,7 +237,7 @@ export default {
 
   a.download {
     background: #fff;
-    color: #7386D5;
+    color: #343F50;
   }
 
 
