@@ -1,10 +1,10 @@
 <template>
   <b-container id="app" fluid>
     <b-row>
-      <div id="nav">
         <!--<router-link to="/">Home</router-link>|-->
         <!--<router-link to="/about">About</router-link>-->
         <!-- Sidebar Holder -->
+      <div class="wrapper">
         <nav id="sidebar">
           <div class="sidebar-header">
             <h3>
@@ -13,7 +13,6 @@
           </div>
 
           <ul class="list-unstyled components">
-            <p>*slogan goes in here*</p>
             <li class="active">
               <a
                 href="#"
@@ -24,18 +23,18 @@
               >Home</a>
               <ul :class="`${homeSM?'collapse':''} list-unstyled`" id="homeSubmenu">
                 <li>
-                  <a href="Home.html">Your Vibe</a>
+                  <router-link to="/">Your Vibe</router-link>
                 </li>
                 <li>
-                  <a href="Home.html">Music Events</a>
+                  <router-link to="/">Music Events</router-link>
                 </li>
                 <li>
-                  <a href="Home.html">Popular</a>
+                  <router-link to="/">Popular</router-link>
                 </li>
               </ul>
             </li>
             <li>
-              <a href="Search.html">Search</a>
+              <router-link to="/about">Search</router-link>
               <a
                 href="#"
                 data-toggle="collapse"
@@ -45,22 +44,21 @@
               >Categories</a>
               <ul :class="`${categorySM?'collapse':''} list-unstyled`" id="pageSubmenu">
                 <li>
-                  <a href="Categories.html">Cafes</a>
+                  <router-link to="/categories">Cafes</router-link>
                 </li>
                 <li>
-                  <a href="Categories.html">Bars</a>
+                  <router-link to="/categories">Bars</router-link>
                 </li>
                 <li>
-                  <a href="Categories.html">Concerts</a>
+                  <router-link to="/categories">Concerts</router-link>
                 </li>
               </ul>
             </li>
             <li>
-              <!-- <a href="Account.html">Your Account</a> -->
               <router-link to="/user">Your Account</router-link>
             </li>
             <li>
-              <a href="Contact.html">Contact</a>
+              <router-link to="/contact">Contact us</router-link>
             </li>
           </ul>
 
@@ -73,13 +71,17 @@
             </li>
           </ul>
         </nav>
-      </div>
-      <div class="container">
+
+      <div class="fluid container">
         <router-view/>
+      </div>
+
       </div>
     </b-row>
   </b-container>
 </template>
+
+
 
 <script>
 export default {
@@ -108,27 +110,27 @@ export default {
   /*-webkit-font-smoothing: antialiased;*/
   /*-moz-osx-font-smoothing: grayscale;*/
 
+
   /*
     DEMO STYLE
 */
   @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
+
   body {
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: #fafafa;
   }
 
   p {
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
     color: #999;
   }
 
-  a,
-  a:hover,
-  a:focus {
+  a, a:hover, a:focus {
     color: inherit;
     text-decoration: none;
     transition: all 0.3s;
@@ -171,12 +173,13 @@ export default {
     perspective: 1500px;
   }
 
+
   #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #7386d5;
-    color: #fff;
-    transition: all 0.6s cubic-bezier(0.945, 0.02, 0.27, 0.665);
+    background: #343F50;
+    color: #f5ac40;
+    transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
     transform-origin: bottom left;
   }
 
@@ -187,7 +190,9 @@ export default {
 
   #sidebar .sidebar-header {
     padding: 20px;
-    background: #6d7fcc;
+    background: #47566e;
+    color: #f5ac40;
+    font-size: 1.1em;
   }
 
   #sidebar ul.components {
@@ -196,7 +201,7 @@ export default {
   }
 
   #sidebar ul p {
-    color: #fff;
+    color: #f5ac40;
     padding: 10px;
   }
 
@@ -206,15 +211,15 @@ export default {
     display: block;
   }
   #sidebar ul li a:hover {
-    color: #7386d5;
-    background: #fff;
+    color: #f5ac40;
+    background: #47566e;
   }
 
-  #sidebar ul li.active > a,
-  a[aria-expanded="true"] {
-    color: #fff;
-    background: #6d7fcc;
+  #sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #f5ac40;
+    background: #343F50;
   }
+
 
   a[data-toggle="collapse"] {
     position: relative;
@@ -231,7 +236,7 @@ export default {
   ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    background: #343F50;
   }
 
   ul.CTAs {
@@ -248,8 +253,12 @@ export default {
 
   a.download {
     background: #fff;
-    color: #7386d5;
+    color: #343F50;
   }
+
+
+
+
 
   /* ---------------------------------------------------
       CONTENT STYLE
@@ -274,7 +283,7 @@ export default {
     margin: 0 auto;
     display: block;
     background: #555;
-    transition: all 0.8s cubic-bezier(0.81, -0.33, 0.345, 1.375);
+    transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
     transition-delay: 0.2s;
   }
 
@@ -288,11 +297,13 @@ export default {
     transform: rotate(-45deg) translate(1px, -1px);
   }
 
+
   #sidebarCollapse.active span {
     transform: none;
     opacity: 1;
     margin: 5px auto;
   }
+
 
   /* ---------------------------------------------------
       MEDIAQUERIES
@@ -325,11 +336,13 @@ export default {
     #sidebarCollapse.active span:last-of-type {
       transform: rotate(-45deg) translate(1px, -1px);
     }
+
   }
 
-  .active-pink-2 input[type="text"]:focus:not([readonly]) {
+  .active-pink-2 input[type=text]:focus:not([readonly]) {
     border-bottom: 1px solid #f48fb1;
     box-shadow: 0 1px 0 0 #f48fb1;
   }
+
 }
 </style>
