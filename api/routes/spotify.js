@@ -113,10 +113,17 @@ router.get("/callback", function(req, res) {
                     user = data.body;
                     user["accessToken"] = access_token;
                     user["refreshToken"] = refresh_token;
-
+                    // user["_id"] = user["id"];
                     const db = req.app.locals.db;
                     const col = db.collection("users");
-                    col.insertOne(user);
+                    try {
+                        // col.replaceOne({ _id: access_token }, user, {
+                        //     upsert: true
+                        // });
+                        col.insertOne(user);
+                    } catch (err) {
+                        console.log(err);
+                    }
                 });
 
                 res.json({ spotify: user });
