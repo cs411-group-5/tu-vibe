@@ -57,7 +57,7 @@
     </ul>
 
     <ul class="list-unstyled CTAs">
-      <li>
+      <li v-if="!userID">
         <a @click="redirectLogin()">Login through Spotify</a>
       </li>
       <li v-if="userID">
