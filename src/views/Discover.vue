@@ -1,17 +1,20 @@
 <template>
     <div class="discover">
         <title>Discover</title>
-
+        {{$route.params.id}}
+        <h1>Discover</h1>
         <!-- <Login /> -->
-        <h1>Discover this place</h1>  <!-- this location  -->
-        <Maps />
 
     </div>
 </template>
 
 <script>
+
     export default {
-        name: 'discover'
+        name: 'discover',
+        mounted() {
+            console.log(this.$route);
+        }
     }
 </script>
 

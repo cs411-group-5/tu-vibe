@@ -29,7 +29,7 @@ export default new Router({
     {
       path: '/discover',
       name: 'discover',
-      component: () => import(/* webpackChunkName: "user" */ './views/Discover.vue')
+      component: () => import(/* webpackChunkName: "discover" */ './views/Discover.vue')
     },
     {
       path: '/categories',
