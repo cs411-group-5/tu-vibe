@@ -1,137 +1,253 @@
-var SpotifyWebApi = require("spotify-web-api-node");
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 const request = require("request");
 
+var SpotifyWebApi = require("spotify-web-api-node");
+
 var access_token = "";
 var spotifyApi = new SpotifyWebApi({
-  clientId: process.env.SPOTIFY_CID,
-  clientSecret: process.env.SPOTIFY_SEC,
-  redirectUri: "http://localhost:8889/spotify/callback"
+    clientId: process.env.SPOTIFY_CID,
+    clientSecret: process.env.SPOTIFY_SEC,
+    redirectUri: "http://localhost:8889/spotify/callback"
 });
 
 var artistCarry = [];
 var Genre_carry = [];
-var night_club = ["dance pop", "pop rap", "latin pop", "pop rock", "pop punk", "indie pop", "viral pop", "indie poptimism", "viral pop", "k-pop", "pop reggaeton", "pop", "pop house", "electro house", "house", "progressive house", "progressive electro house", "deep house", "disco house", "tech house", "pop house", "hard house", "edm", "pop edm", "deep pop edm", "hip hop", "southern hip hop", "underground hip hop", "latin hip hop", "hardcore hip hop", "rap", "underground rap"];
-var Bar = ["hip hop", "southern hip hop", "underground hip hop", "latin hip hop", "hardcore hip hop", "rap", "underground rap", "dance pop", "pop rap", "latin pop", "pop rock", "pop punk", "indie pop", "viral pop", "indie poptimism", "viral pop", "k-pop", "pop reggaeton", "pop", "pop house", "jazz", "vocal jazz", "nu jazz", "cool jazz", "jazz funk", "jazz fusion", "jazz blues", "contemporary jazz", "jazz trumpet", "jazz saxophone", "jazz piano", "jazz guitar", "rock", "soft rock", "pop rock", "album rock", "classic rock", "indie rock", "alternative rock", "hard rock", "folk rock", "art rock", "dance rock"];
-var cafe = ["funk", "g funk", "funk metal", "jazz funk", "funk rock", "classical", "classical era", "contemporary classical", "classical piano", "electropop", "electro house", "electronic", "electro", "jazz", "jazz piano", "compositional ambient", "ambient", "ambient folk", "space ambient", "j-ambient", "ambient techno", "dark ambient", "deep ambient", "classical", "classical era", "contemporary classical", "classical performance", "classical piano", "early music", "baroque"];
-spotifyApi.setAccessToken(access_token);
+var night_club = [
+    "dance pop",
+    "pop rap",
+    "latin pop",
+    "pop rock",
+    "pop punk",
+    "indie pop",
+    "viral pop",
+    "indie poptimism",
+    "viral pop",
+    "k-pop",
+    "pop reggaeton",
+    "pop",
+    "pop house",
+    "electro house",
+    "house",
+    "progressive house",
+    "progressive electro house",
+    "deep house",
+    "disco house",
+    "tech house",
+    "pop house",
+    "hard house",
+    "edm",
+    "pop edm",
+    "deep pop edm",
+    "hip hop",
+    "southern hip hop",
+    "underground hip hop",
+    "latin hip hop",
+    "hardcore hip hop",
+    "rap",
+    "underground rap"
+];
+var Bar = [
+    "hip hop",
+    "southern hip hop",
+    "underground hip hop",
+    "latin hip hop",
+    "hardcore hip hop",
+    "rap",
+    "underground rap",
+    "dance pop",
+    "pop rap",
+    "latin pop",
+    "pop rock",
+    "pop punk",
+    "indie pop",
+    "viral pop",
+    "indie poptimism",
+    "viral pop",
+    "k-pop",
+    "pop reggaeton",
+    "pop",
+    "pop house",
+    "jazz",
+    "vocal jazz",
+    "nu jazz",
+    "cool jazz",
+    "jazz funk",
+    "jazz fusion",
+    "jazz blues",
+    "contemporary jazz",
+    "jazz trumpet",
+    "jazz saxophone",
+    "jazz piano",
+    "jazz guitar",
+    "rock",
+    "soft rock",
+    "pop rock",
+    "album rock",
+    "classic rock",
+    "indie rock",
+    "alternative rock",
+    "hard rock",
+    "folk rock",
+    "art rock",
+    "dance rock"
+];
+var cafe = [
+    "funk",
+    "g funk",
+    "funk metal",
+    "jazz funk",
+    "funk rock",
+    "classical",
+    "classical era",
+    "contemporary classical",
+    "classical piano",
+    "electropop",
+    "electro house",
+    "electronic",
+    "electro",
+    "jazz",
+    "jazz piano",
+    "compositional ambient",
+    "ambient",
+    "ambient folk",
+    "space ambient",
+    "j-ambient",
+    "ambient techno",
+    "dark ambient",
+    "deep ambient",
+    "classical",
+    "classical era",
+    "contemporary classical",
+    "classical performance",
+    "classical piano",
+    "early music",
+    "baroque"
+];
 
-const ENDPOINT= "http://localhost:8889/user/updateUser" 
-// spotify User token, the desision that you want your yelp keyword tobe 
+const ENDPOINT = "http://localhost:8889/user/updateUser";
+// spotify User token, the desision that you want your yelp keyword tobe
 
-function main() {
-  spotifyApi.getMySavedTracks({
-    limit: 10,
-    offset: 1
-  })
-    .then(function (data) {
-      var items = data.body.items;
-      items.map((v, itemIndex) => {
-        // console.log(JSON.stringify(v, null, 2));
-        let artists = v.track.album.artists;
+function main(access_token, updateUser) {
+    spotifyApi.setAccessToken(access_token);
+    spotifyApi
+        .getMySavedTracks({
+            limit: 10,
+            offset: 1
+        })
+        .then(
+            function(data) {
+                var items = data.body.items;
+                items.map((v, itemIndex) => {
+                    // console.log(JSON.stringify(v, null, 2));
+                    let artists = v.track.album.artists;
 
-        artists.map((v, ix) => {
-          //console.log("Artist: ", v.id );
-          var last_element = artistCarry[artistCarry.length - 1];
-          if (last_element !== v.id) {
-            artistCarry.push(v.id);
-            //console.log("", v.id);
-            //console.log("", artistCarry.length);
-          }
-          //  console.log("",artistCarry);
-        });
-        //console.log("Here: ", artistCarry);
-        if (itemIndex === items.length-1) {
-          artistCarry.map(Element => {
-            spotifyApi.getArtist(Element)
-              .then(function (data) {
-                //console.log('Artist information', data.body.genres);
-                data.body.genres.map((v) => {
-                  Genre_carry.push(v);
+                    artists.map((v, ix) => {
+                        //console.log("Artist: ", v.id );
+                        var last_element = artistCarry[artistCarry.length - 1];
+                        if (last_element !== v.id) {
+                            artistCarry.push(v.id);
+                            //console.log("", v.id);
+                            //console.log("", artistCarry.length);
+                        }
+                        //  console.log("",artistCarry);
+                    });
+                    //console.log("Here: ", artistCarry);
+                    if (itemIndex === items.length - 1) {
+                        artistCarry.map(Element => {
+                            spotifyApi.getArtist(Element).then(
+                                function(data) {
+                                    //console.log('Artist information', data.body.genres);
+                                    data.body.genres.map(v => {
+                                        Genre_carry.push(v);
+                                    });
+                                    //console.log("Conditionals", Genre_carry);
+
+                                    Genre_carry.map((v, ix) => {
+                                        let nc = contains(v, night_club);
+                                        if (nc) {
+                                            //console.log("Night Club");
+                                            updateUser("Night Club");
+                                        }
+                                        let bar = contains(v, Bar);
+                                        if (bar) {
+                                            //console.log("Bar");
+                                            updateUser("Bar");
+                                        }
+                                        let cf = contains(v, cafe);
+                                        if (cf) {
+                                            //console.log("cafe");
+                                            updateUser("Cafe");
+                                        }
+                                    });
+                                },
+                                function(err) {
+                                    console.error(err);
+                                }
+                            );
+                        });
+                    }
                 });
-                //console.log("Conditionals", Genre_carry);
+            },
+            function(err) {
+                console.log("Something went wrong!", err);
+            }
+        );
 
-                Genre_carry.map((v, ix) => {
-                  let nc = contains(v, night_club);
-                  if (nc) {
-                    //console.log("Night Club");
-                    let resOpts = { 
-                      url: ENDPOINT,
-                      json: true,
-                      qs: {
-                        "token": access_token,
-                        "term": "Night Club"
-                      }}
-                      request.get(resOpts, function(error,response,body){
-                        res.json(body);
-                      })
-                    };
-                  let bar = contains(v,Bar);
-                  if (bar){
-                    //console.log("Bar");
-                    let resOpts = { 
-                      url: ENDPOINT,
-                      json: true,
-                      qs: {
-                        "token": access_token,
-                        "term": "Bar"
-                      }}
-                      request.get(resOpts, function(error,response,body){
-                        res.json(body);
-                      })
-                  };
-                  let cf = contains(v,cafe);
-                  if(cf){
-                    //console.log("cafe");
-                    let resOpts = { 
-                      url: ENDPOINT,
-                      json: true,
-                      qs: {
-                        "token": access_token,
-                        "term": "Cafe"
-                      }}
-                      request.get(resOpts, function(error,response,body){
-                        res.json(body);
-                      })
-                  }
+    spotifyApi.getFollowedArtists({ limit: 5 }).then(
+        function(data) {
+            var items = data.body.artists.items;
+            items.map((v, ix) => {
+                let artist = v.external_urls;
+                //console.log('', v.genres);
+                v.genres.map(v => {
+                    Genre_carry.push(v);
                 });
-              }, function (err) {
-                console.error(err);
-              });
-          });
+            });
+            // console.log('This user is following ', data.body.artists.items);
+        },
+        function(err) {
+            console.log("Something went wrong!", err);
         }
-      });
-    }, function (err) {
-      console.log('Something went wrong!', err);
-    });
-
-  spotifyApi.getFollowedArtists({ limit: 5 })
-    .then(function (data) {
-      var items = data.body.artists.items;
-      items.map((v, ix) => {
-        let artist = v.external_urls;
-        //console.log('', v.genres);
-        v.genres.map((v) => {
-          Genre_carry.push(v);
-        });
-      });
-      // console.log('This user is following ', data.body.artists.items);
-    }, function (err) {
-      console.log('Something went wrong!', err);
-    });
+    );
 }
 
-function contains(value, bigList){
-  if(bigList.indexOf(value) > 0){
-    //console.log("found value", value);
-    return bigList[bigList.indexOf(value)];
-  } else {
-    return false;
-  }
+function contains(value, bigList) {
+    if (bigList.indexOf(value) > 0) {
+        //console.log("found value", value);
+        return bigList[bigList.indexOf(value)];
+    } else {
+        return false;
+    }
 }
 
+router.get("/", function(req, res, next) {
+    var accessToken = req.query.token;
+    var updateUser = async function(updateTerm) {
+        let yelpTerm = updateTerm;
 
-router.get('/decision', function(req, res, next){
-  console.log(main());
+        try {
+            const db = req.app.locals.db;
+            const query = { accessToken: accessToken };
+
+            console.log("Trying to ", updateTerm);
+            const result = await db.collection("users").updateOne(
+                query,
+                {
+                    $set: { yelpTerm: yelpTerm }
+                },
+                { upsert: true }
+            );
+            // console.log(result);
+
+            // res.json({ status: "ok" });
+        } catch (err) {
+            next(err);
+        }
+    };
+    main(accessToken, updateUser);
+
+    res.json({ status: "ok" });
 });
+
+module.exports = router;
