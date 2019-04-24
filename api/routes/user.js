@@ -5,7 +5,7 @@ const { ObjectId } = require("mongodb");
 router.get("/info/:id", async (req, res, next) => {
     try {
         const db = req.app.locals.db;
-        const query = { _id: ObjectId(req.params.id) };
+        const query = { _id: req.params.id };
         const data = await db
             .collection("users")
             .find(query)
@@ -36,25 +36,25 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-router.get("/updateUser", async (req, res, next) => {
-    let accessToken = req.query.token;
-    let yelpTerm = req.query.term;
+// router.get("/updateUser", async (req, res, next) => {
+//     let accessToken = req.query.token;
+//     let yelpTerm = req.query.term;
 
-    try {
-        const db = req.app.locals.db;
-        const query = { accessToken: accessToken };
-        const result = await db.collection("users").updateOne(
-            query,
-            {
-                $set: { yelpTerm: yelpTerm }
-            },
-            { upsert: true }
-        );
-        console.log(result);
-        res.json({ status: "ok" });
-    } catch (err) {
-        next(err);
-    }
-});
+//     try {
+//         const db = req.app.locals.db;
+//         const query = { accessToken: accessToken };
+//         const result = await db.collection("users").updateOne(
+//             query,
+//             {
+//                 $set: { yelpTerm: yelpTerm }
+//             },
+//             { upsert: true }
+//         );
+//         console.log(result);
+//         res.json({ status: "ok" });
+//     } catch (err) {
+//         next(err);
+//     }
+// });
 
 module.exports = router;

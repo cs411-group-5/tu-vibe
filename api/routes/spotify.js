@@ -55,7 +55,7 @@ router.get("/spotify", function(req, res, next) {
     );
 });
 
-router.get("/callback", function(req, res) {
+router.get("/callback", function(req, res, next) {
     // your application requests refresh and access tokens
     // after checking the state parameter
 
@@ -117,16 +117,20 @@ router.get("/callback", function(req, res) {
                     const db = req.app.locals.db;
                     const col = db.collection("users");
                     try {
-                        // col.replaceOne({ _id: access_token }, user, {
-                        //     upsert: true
-                        // });
-                        col.insertOne(user);
+                        col.updateOne(
+                            { _id: user["id"] },
+                            { $set: user },
+                            {
+                                upsert: true
+                            }
+                        );
+                        res.redirect(
+                            `http://localhost:8080/user?id=${user["id"]}`
+                        );
                     } catch (err) {
-                        console.log(err);
+                        next(err);
                     }
                 });
-
-                res.json({ spotify: user });
             } else {
                 res.redirect(
                     "/#" +
