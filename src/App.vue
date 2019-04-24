@@ -7,7 +7,9 @@
       <div class="wrapper">
         <nav id="sidebar">
           <div class="sidebar-header">
-            <h3><router-link to="/">TuVibe</router-link></h3>
+            <h3>
+              <router-link to="/">TuVibe</router-link>
+            </h3>
           </div>
 
           <ul class="list-unstyled components">
@@ -62,7 +64,10 @@
 
           <ul class="list-unstyled CTAs">
             <li>
-              <a href class>Go to your Spotify</a>
+              <a>Go to your Spotify</a>
+            </li>
+            <li v-if="userID">
+              <a @click="logout()">Logout</a>
             </li>
           </ul>
         </nav>
@@ -83,8 +88,19 @@ export default {
   data() {
     return {
       categorySM: true,
-      homeSM: true
+      homeSM: true,
+      userID: undefined
     };
+  },
+  methods: {
+    logout() {
+      console.log("Logging out");
+      this.$cookie.delete("userID");
+    }
+  },
+  mounted() {
+    // console.log("Getting userid ");
+    this.userID = this.$cookie.get("userID");
   }
 };
 </script>
