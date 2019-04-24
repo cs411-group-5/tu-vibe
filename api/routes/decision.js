@@ -128,11 +128,14 @@ var cafe = [
 const ENDPOINT = "http://localhost:8889/user/updateUser";
 // spotify User token, the desision that you want your yelp keyword tobe
 
+// This is the dumbest and most hacky way to do this but desperate time calls for desperate measure!!
+var exit_flag = false;
+
 function main(access_token, updateUser) {
     spotifyApi.setAccessToken(access_token);
     spotifyApi
         .getMySavedTracks({
-            limit: 10,
+            limit: 5,
             offset: 1
         })
         .then(
@@ -161,24 +164,28 @@ function main(access_token, updateUser) {
                                     data.body.genres.map(v => {
                                         Genre_carry.push(v);
                                     });
-                                    //console.log("Conditionals", Genre_carry);
+                                    console.log("Conditionals", Genre_carry);
 
                                     Genre_carry.map((v, ix) => {
                                         let nc = contains(v, night_club);
                                         if (nc) {
                                             //console.log("Night Club");
+
                                             updateUser("Night Club");
                                         }
                                         let bar = contains(v, Bar);
                                         if (bar) {
                                             //console.log("Bar");
+
                                             updateUser("Bar");
                                         }
                                         let cf = contains(v, cafe);
                                         if (cf) {
                                             //console.log("cafe");
+
                                             updateUser("Cafe");
                                         }
+                                        updateUser("Cafe");
                                     });
                                 },
                                 function(err) {
@@ -225,24 +232,32 @@ router.get("/", function(req, res, next) {
     var accessToken = req.query.token;
     var updateUser = async function(updateTerm) {
         let yelpTerm = updateTerm;
+        if (!exit_flag) {
+            try {
+                const db = req.app.locals.db;
+                const query = { accessToken: accessToken };
 
-        try {
-            const db = req.app.locals.db;
-            const query = { accessToken: accessToken };
+                console.log("Trying to ", updateTerm);
 
-            console.log("Trying to ", updateTerm);
-            const result = await db.collection("users").updateOne(
-                query,
-                {
-                    $set: { yelpTerm: yelpTerm }
-                },
-                { upsert: true }
-            );
-            // console.log(result);
+                const result = await db.collection("users").updateOne(
+                    query,
+                    {
+                        $set: { yelpTerm: yelpTerm }
+                    },
+                    { upsert: true }
+                );
+                if (result) {
+                    exit_flag = true;
+                }
+                // console.log(result);
 
-            // res.json({ status: "ok" });
-        } catch (err) {
-            next(err);
+                // res.json({ status: "ok" });
+            } catch (err) {
+                console.log(err);
+                next(err);
+            }
+        } else {
+            console.log("Canceling ", updateTerm);
         }
     };
     main(accessToken, updateUser);

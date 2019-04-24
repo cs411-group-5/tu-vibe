@@ -1,61 +1,40 @@
 <template>
   <div>
-    <!-- <user-listing /> -->
-    <!-- <p>{{$route.query}}</p> -->
-    <p>{{userInfo}}</p>
+    <user-info :userID="userID"/>
   </div>
 </template>
 
 <script>
-// import UserListing from "@/components/UserListing.vue";
+import UserInfo from "@/components/UserInfo.vue";
 
 export default {
   data() {
     return {
-      userID: null,
-      userInfo: null
+      userID: null
     };
   },
-  // components: {
-  //     UserListing
-  // },
-  methods: {
-    fetchUser() {
-      console.log(`Fetching user ${this.userID}`);
-
-      if (this.userID) {
-        fetch(`http://localhost:8889/user/${this.userID}`)
-          .then(r => r.json())
-          .then(r => {
-            console.log(r);
-            this.userInfo = r[0];
-          });
-      }
-    }
-  },
-  watch: {
-    userID(value) {
-      this.fetchUser();
-    }
+  components: {
+    UserInfo
   },
   mounted() {
-    // let accessCode = this.$route.query.code;
+    // let userID = this.$route.query.code;
 
-    if (this.$route.query.code) {
-      let accessCode = this.$route.query.code;
-      if (accessCode) {
-        console.log(`Got Spotify AC ${accessCode}`);
+    if (this.$route.query.id) {
+      let userID = this.$route.query.id;
+      if (userID) {
+        console.log(`Got Spotify AC ${userID}`);
 
         // Set cookie
-        this.$cookie.set("userID", accessCode);
+        this.$cookie.set("userID", userID);
         this.userID = this.$cookie.get("userID");
 
         // console.log(document.cookie);
       }
     } else {
       this.userID = this.$cookie.get("userID");
-      this.fetchUser();
     }
+
+    this.$emit("updateUserID", this.userID);
   }
 };
 </script>

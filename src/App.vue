@@ -5,10 +5,10 @@
       <!--<router-link to="/about">About</router-link>-->
       <!-- Sidebar Holder -->
       <div class="wrapper">
-        <sidebar/>
+        <sidebar :userID="userID"/>
 
         <div class="fluid container">
-          <router-view/>
+          <router-view @updateUserID="handleUpdateUserID"/>
         </div>
       </div>
     </b-row>
@@ -21,7 +21,17 @@
 import Sidebar from "@/components/Sidebar.vue";
 
 export default {
-  components: { Sidebar }
+  components: { Sidebar },
+  data() {
+    return {
+      userID: null
+    };
+  },
+  methods: {
+    handleUpdateUserID(userID) {
+      this.userID = userID;
+    }
+  }
 };
 </script>
 <style lang="scss">

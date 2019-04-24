@@ -72,21 +72,22 @@ export default {
   data() {
     return {
       categorySM: true,
-      homeSM: true,
-      userID: undefined
+      homeSM: true
     };
   },
+  props: ["userID"],
   methods: {
     logout() {
       console.log("Logging out");
       this.$cookie.delete("userID");
+      window.location = "/";
     },
     redirectLogin() {
       window.location = "http://localhost:8889/spotify/spotify";
     }
   },
   mounted() {
-    // console.log("Getting userid ");
+    console.log("Getting userid ");
     this.userID = this.$cookie.get("userID");
   }
 };
