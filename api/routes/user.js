@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { ObjectId } = require("mongodb");
 
-router.get("/:id", async (req, res, next) => {
+router.get("/info/:id", async (req, res, next) => {
     try {
         const db = req.app.locals.db;
         const query = { _id: ObjectId(req.params.id) };
@@ -43,9 +43,15 @@ router.get("/updateUser", async (req, res, next) => {
     try {
         const db = req.app.locals.db;
         const query = { accessToken: accessToken };
-        db.collection("users").updateOne(query, {
-            $set: { yelpTerm: yelpTerm }
-        });
+        const result = await db.collection("users").updateOne(
+            query,
+            {
+                $set: { yelpTerm: yelpTerm }
+            },
+            { upsert: true }
+        );
+        console.log(result);
+        res.json({ status: "ok" });
     } catch (err) {
         next(err);
     }
