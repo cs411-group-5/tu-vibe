@@ -2,34 +2,44 @@
   <div class="discover">
     <title>Discover</title>
 
-    <!-- <Login /> -->
-    <h1>Discover this place</h1>
-    <button @click="getYelp()">Yelp!!</button>
+    <h1>Discover {{ yelpJSON.name }}</h1>
+    
+
     <!-- this location  -->
     <Maps/>
   </div>
+
 </template>
 
 <script>
 export default {
   name: "discover",
   data() {
-    return { yelpJSON: undefined };
+    return { yelpJSON: undefined, id : undefined};
   },
   methods: {
     getYelp() {
-      fetch(`http://localhost:8889/yelp/info/id=${this.id}`)
+      fetch(`http://localhost:8889/yelp/info/?id=${this.id}`)
         .then(r => r.json())
         .then(j => {
           this.yelpJSON = j;
         });
     }
   },
+  watch: {
+    id(value){
+      this.getYelp();
+    }
+  },
   mounted() {
-    this.getYelp();
+    if (this.$route.params.id){
+      this.id = this.$route.params.id;
+    }
+
   }
 };
 </script>
 
 <style scoped>
+
 </style>
