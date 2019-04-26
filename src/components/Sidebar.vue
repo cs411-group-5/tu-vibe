@@ -88,7 +88,7 @@ export default {
   },
   mounted() {
     console.log("Getting userid ");
-    this.userID = this.$cookie.get("userID");
+    // this.userID = this.$cookie.get("userID");
   }
 };
 </script>

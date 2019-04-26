@@ -31,7 +31,10 @@ export default {
     handleUpdateUserID(userID) {
       this.userID = userID;
     }
-  }
+  },
+  mounted() {
+    this.userID = this.$cookie.get("userID");
+  },
 };
 </script>
 <style lang="scss">
