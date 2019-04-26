@@ -23,7 +23,7 @@
               <div class="card">
                 <div class="card-horizontal">
                   <div class="img-square-wrapper">
-                    <img style="width: 300px; height: 180" :src="business.image_url">
+                    <b-img fluid-grow :src="business.image_url"/>
                   </div>
                   <div class="card-body">
                     <h3 class="card-title">{{business.name}}</h3>
@@ -61,7 +61,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .result-list {
   margin: 0 auto;
   padding: 0;
@@ -71,6 +71,12 @@ export default {
   /* margin: 1em 1em; */
   /* padding-left: 1em; */
   /* padding-right: 1em; */
+}
+.img-square-wrapper {
+  img {
+    max-height: 300px;
+    max-width: 300px;
+  }
 }
 
 .card-horizontal p {
