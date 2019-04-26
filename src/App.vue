@@ -5,10 +5,10 @@
       <!--<router-link to="/about">About</router-link>-->
       <!-- Sidebar Holder -->
       <div class="wrapper">
-        <sidebar :userID="userID"/>
+        <sidebar :userID="userID" :userInfo="userInfo"/>
 
         <div class="fluid container">
-          <router-view @updateUserID="handleUpdateUserID"/>
+          <router-view @updateUserID="handleUpdateUserID" :userInfo="userInfo"/>
         </div>
       </div>
     </b-row>
@@ -24,17 +24,31 @@ export default {
   components: { Sidebar },
   data() {
     return {
-      userID: null
+      userID: null,
+      userInfo: undefined
     };
   },
   methods: {
     handleUpdateUserID(userID) {
       this.userID = userID;
+    },
+    fetchUser() {
+      console.log(`Fetching user ${this.userID}`);
+
+      if (this.userID) {
+        fetch(`http://localhost:8889/user/info/${this.userID}`)
+          .then(r => r.json())
+          .then(r => {
+            console.log(r);
+            this.userInfo = r[0];
+          });
+      }
     }
   },
   mounted() {
     this.userID = this.$cookie.get("userID");
-  },
+    this.fetchUser();
+  }
 };
 </script>
 <style lang="scss">

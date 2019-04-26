@@ -1,13 +1,13 @@
 <template>
   <b-col>
-    <input
+    <!-- <input
       class="form-control"
       type="text"
       placeholder="Search for awesomeness..."
       aria-label="Search"
       v-model="term"
       id="search-bar"
-    >
+    >-->
     <!--<b-button v-on:click="getYelp();">Click here!</b-button>-->
     <ul class="result-list" v-if="yelpJSON">
       <div
@@ -43,10 +43,10 @@
 
 <script>
 export default {
-  data() {
-    return { term: "" };
-  },
-  props: ["yelpJSON", "getYelp"],
+  // data() {
+  // return { term: "" };
+  // },
+  props: ["yelpJSON", "getYelp", "term"],
   watch: {
     term(value) {
       console.log(value);
