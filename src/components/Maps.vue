@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h1>{{ currentLocation }}</h1>
+    <h1>
+      <small>Welcome to</small>
+      {{ currentLocation }}
+    </h1>
     <!--<p>{{yelpJSON}}</p>-->
     <!-- <button v-on:click="initMap()">lol</button> -->
     <div id="map" style="width: 100%; height: 400px"></div>

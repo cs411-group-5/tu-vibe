@@ -3,7 +3,7 @@
     <title>Home Page</title>
 
     <!-- <Login /> -->
-    <h1>Welcome to</h1>
+    <!-- <h1>Welcome to</h1> -->
     <!-- this location  -->
     <Maps :yelpJSON="yelpJSON"/>
     <br>
