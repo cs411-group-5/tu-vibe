@@ -1,21 +1,22 @@
 <template>
   <div class="discover">
-    <b-card>
-      <title>Discover</title>
+    <title>Discover</title>
 
-      <h1>Discover {{ yelpJSON.name }}</h1>
-    </b-card>
+    <h1>Discover {{ yelpJSON.name }}</h1>
+      <p>lol</p>
+
+
+    <!-- this location  -->
+    <Maps/>
   </div>
+
 </template>
 
 <script>
-import Maps from "@/components/Maps.vue";
-
 export default {
   name: "discover",
-  components: { Maps },
   data() {
-    return { yelpJSON: undefined, id: undefined };
+    return { yelpJSON: undefined, id : undefined};
   },
   methods: {
     getYelp() {
@@ -27,17 +28,19 @@ export default {
     }
   },
   watch: {
-    id() {
+    id(value){
       this.getYelp();
     }
   },
   mounted() {
-    if (this.$route.query.id) {
-      this.id = this.$route.query.id;
+    if (this.$route.params.id){
+      this.id = this.$route.params.id;
     }
+
   }
 };
 </script>
 
 <style scoped>
+
 </style>
