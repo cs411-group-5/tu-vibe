@@ -15,7 +15,8 @@ router.get("/", function(req, res, next) {
         qs: {
             latitude: "42.361145",
             longitude: "-71.057083",
-            term: rText
+            term: rText,
+            limit: 20
         }
     };
     console.log("Getting ", resOpts);
