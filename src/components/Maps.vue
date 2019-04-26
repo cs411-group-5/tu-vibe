@@ -22,7 +22,8 @@ export default {
         center: { lat: 42.3557, lng: -71.0572 }
       },
       gInfoWindow: undefined,
-      gMarkers: []
+      gMarkers: [],
+      gGeocoder: undefined
     };
   },
   props: ["yelpJSON"],
@@ -36,11 +37,27 @@ export default {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           position => {
-            var pos = {
+            let pos = {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
-            this.currentLocation = pos;
+            console.log(`Pos: `, pos);
+            this.gGeocoder.geocode(
+              {
+                location: pos
+              },
+              results => {
+                // console.log(results);
+                let niceResults = results.filter(
+                  v => v["types"].indexOf("locality") >= 0
+                );
+                if (niceResults.length > 0) {
+                  this.currentLocation = niceResults[0].formatted_address;
+                }
+              }
+            );
+
+            // this.currentLocation = pos;
             // this.gInfoWindow.setPosition(pos);
             // this.gInfoWindow.setContent("You're here!");
             // this.gInfoWindow.open(map);
@@ -70,6 +87,7 @@ export default {
         this.gMapOptions
       );
       this.gInfoWindow = new google.maps.InfoWindow();
+      this.gGeocoder = new google.maps.Geocoder();
 
       this.getCurrentLocation();
     },
