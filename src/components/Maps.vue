@@ -18,112 +18,111 @@ export default {
   name: "Maps",
   data() {
     return {
-      currentLocation: undefined,
-      gMap: undefined,
-      gMapOptions: {
-        zoom: 15,
-        center: { lat: 42.3557, lng: -71.0572 }
-      },
-      gInfoWindow: undefined,
-      gMarkers: [],
-      gGeocoder: undefined
+      loc: undefined
     };
   },
   props: ["yelpJSON"],
   watch: {
     yelpJSON(value) {
-      this.updateMap();
+      this.initMap();
     }
   },
   methods: {
-    getCurrentLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          position => {
-            let pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-            console.log(`Pos: `, pos);
-            this.gGeocoder.geocode(
-              {
-                location: pos
-              },
-              results => {
-                // console.log(results);
-                let niceResults = results.filter(
-                  v => v["types"].indexOf("locality") >= 0
-                );
-                if (niceResults.length > 0) {
-                  this.currentLocation = niceResults[0].formatted_address;
-                }
-              }
-            );
-
-            // this.currentLocation = pos;
-            // this.gInfoWindow.setPosition(pos);
-            // this.gInfoWindow.setContent("You're here!");
-            // this.gInfoWindow.open(map);
-            // this.gMap.setCenter(pos);
-          },
-          () => {
-            this.handleLocationError(
-              true,
-              this.gInfoWindow,
-              this.gMap.getCenter()
-            );
-          }
-        );
-      } else {
-        // Browser doesn't support Geolocation
-        this.handleLocationError(
-          false,
-          this.gInfoWindow,
-          this.gMap.getCenter()
-        );
-      }
-    },
     initMap() {
+      // Map options
+      var options = {
+        zoom: 15,
+        center: { lat: 42.3557, lng: -71.0572 }
+      };
+
       // New map
-      this.gMap = new google.maps.Map(
-        document.getElementById("map"),
-        this.gMapOptions
-      );
-      this.gInfoWindow = new google.maps.InfoWindow();
-      this.gGeocoder = new google.maps.Geocoder();
+      var map = new google.maps.Map(document.getElementById("map"), options);
+      var infoWindow = new google.maps.InfoWindow();
 
-      this.getCurrentLocation();
-    },
+      // Listen for click on map
+      // google.maps.event.addListener(map, 'click', function(event){
+      //   // Add marker
+      //   addMarker({coords:event.latLng});
+      // });
 
-    updateMap() {
-      // Empty the previous markers
-      this.gMarkers = [];
+      // Array of markers
+      var markers = [
+        {
+          coords: { lat: 42.4668, lng: -70.9495 },
+          // iconImage:'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+          content: "<h1>Lynn MA</h1>"
+        },
+        {
+          coords: { lat: 42.8584, lng: -70.93 },
+          content: "<h1>Amesbury MA</h1>"
+        },
+        {
+          coords: { lat: 42.7762, lng: -71.0773 },
+          content: "<h1>Haverhill MA</h1>"
+        }
+      ];
 
-      // Loop through locations
-      this.yelpJSON.businesses.slice(0, 20).map(b => {
-        // console.log(b);
+      // Loop through markers
+      this.yelpJSON.businesses.map(b => {
+        console.log(b);
         var long = b.coordinates.longitude;
         var lat = b.coordinates.latitude;
         var m = {
           coords: { lat: lat, lng: long },
-          content: `<b>${b.name}</b>`
+          content: "<h1>{{ b.name }}</h1>"
         };
         // Add marker
         //console.log(m);
-        this.addMarker(m);
+        addMarker(m);
       });
 
-      let bounds = new google.maps.LatLngBounds();
-      for (let i = 0; i < this.gMarkers.length; i++) {
-        bounds.extend(this.gMarkers[i].getPosition());
+      // Add Marker Function
+      function addMarker(props) {
+        var marker = new google.maps.Marker({
+          position: props.coords,
+          map: map
+          //icon:props.iconImage
+        });
+
+        // Check for customicon
+        if (props.iconImage) {
+          // Set icon image
+          marker.setIcon(props.iconImage);
+        }
+
+        // Check content
+        if (props.content) {
+          var infoWindow = new google.maps.InfoWindow({
+            content: props.content
+          });
+
+          marker.addListener("click", function() {
+            infoWindow.open(map, marker);
+          });
+        }
       }
-      //center the map to the geometric center of all markers
-      this.gMap.setCenter(bounds.getCenter());
 
-      this.gMap.fitBounds(bounds);
-
-      //remove one zoom level to ensure no marker is on the edge.
-      this.gMap.setZoom(this.gMap.getZoom() - 1);
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            this.loc = pos;
+            infoWindow.setPosition(pos);
+            infoWindow.setContent("You're here!");
+            infoWindow.open(map);
+            map.setCenter(pos);
+          },
+          function() {
+            this.handleLocationError(true, infoWindow, map.getCenter());
+          }
+        );
+      } else {
+        // Browser doesn't support Geolocation
+        this.handleLocationError(false, infoWindow, map.getCenter());
+      }
     },
     handleLocationError(browserHasGeolocation, infoWindow, pos) {
       infoWindow.setPosition(pos);
@@ -133,37 +132,15 @@ export default {
           : "Error: Your browser doesn't support geolocation."
       );
       infoWindow.open(map);
-    },
-    addMarker(props) {
-      var marker = new google.maps.Marker({
-        position: props.coords,
-        map: this.gMap
-        //icon:props.iconImage
-      });
-
-      //   // Check for customicon
-      //   if (props.iconImage) {
-      //     // Set icon image
-      //     marker.setIcon(props.iconImage);
-      //   }
-
-      // Check content
-      if (props.content) {
-        this.gInfoWindow = new google.maps.InfoWindow({
-          content: props.content
-        });
-
-        marker.addListener("click", () => {
-          this.gInfoWindow.open(this.gMap, marker);
-        });
-      }
-
-      // Add the marker into the global list of markers
-      this.gMarkers.push(marker);
     }
   },
   mounted() {
     this.initMap();
   }
 };
+
+// marker.setMap(map);
 </script>
+
+<style scoped>
+</style>

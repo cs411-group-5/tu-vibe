@@ -60,6 +60,7 @@
 
     </div>
   </div>
+
 </template>
 
 <script>
@@ -81,41 +82,40 @@ export default {
     }
   },
   watch: {
-    id() {
+    id(value) {
       this.getYelp();
     }
   },
   mounted() {
-    if (this.$route.query.id) {
-      this.id = this.$route.query.id;
+    if (this.$route.params.id) {
+      this.id = this.$route.params.id;
     }
   }
 };
 </script>
 
 <style lang="scss">
-  #header-img {
-    width: 100%;
-    height: auto;
-  }
-  .alignleft {
-    float: left;
-  }
-  .alignright {
-    float: right;
-    color: #000 !important;
-  }
+#header-img {
+  width: 100%;
+  height: auto;
+}
+.alignleft {
+  float: left;
+}
+.alignright {
+  float: right;
+  color: #000 !important;
+}
 
-#check-this-out{
-    color: #f5ac40 !important;
-    background: #47566e;
-        padding: 10px;
-    font-size: 1.1em;
-    display: block;
-        text-align: center;
-    // font-size: 0.9em !important;
-    border-radius: 5px;
-    margin-bottom: 5px;
-  }
- 
+#check-this-out {
+  color: #f5ac40 !important;
+  background: #47566e;
+  padding: 10px;
+  font-size: 1.1em;
+  display: block;
+  text-align: center;
+  // font-size: 0.9em !important;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
 </style>
