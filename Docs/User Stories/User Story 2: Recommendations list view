@@ -1,0 +1,16 @@
+Primary use: Recommendations list view
+
+When the user is done with the login flow, they find themselves on the home page (the personal account). In their personal 
+account the user will see two main options:
+
+-- the main search, which will simply take your past spotify history of favorite artists and tracks, before suggesting places around your current location. 
+-  "Explore" - this jumbotron presents the user with a list of cafes and bars popular among users in the current 
+ location. Nothing fancy in here, yet it should randomly invoke to 7-10 places from a much larger list of popular locations 
+ in the area and update them daily. 
+ 
+ In both of the above options the user is able to click on the picture to get more information about potential destinations. This will allow for them to see address data, and
+ a short description of the venue.
+ We really like this feature as it will allow users to have a holistic picture before choosing a location venue, thus allowing for them to have
+ personal choice, while our reccomendations serve to guide their thinking. 
+In the left sidebar menu the user can navigate between the search options, their personal account options and etc.
+
